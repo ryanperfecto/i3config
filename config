@@ -1,0 +1,178 @@
+# Set the Modified
+set $mod Mod4
+
+# Set Workspace Names
+set $ws1 "1:Internet"
+set $ws2 "2:Terminal"
+set $ws3 "3:Graphics"
+set $ws4 "4:Audio"
+set $ws5 "5:Files"
+set $ws6 "6:Development"
+set $ws7 "7:Office"
+
+# Switch to Workspaces
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+
+# Assign Applications to Workspaces
+assign[class="firefox|chromium|Chromium|chromium-browser|Chrome"] $ws1
+assign[class="xterm|terminator|lxterminal"] $ws2
+assign[class="gimp|inkscape"] $ws3
+assign[class="vlc|Vlc|lmms"] $ws4
+assign[class="thunar"] $ws5
+assign[class="sublime-text"] $ws6
+
+# start a terminal
+bindsym $mod+Return exec lxterminal
+
+# start a browser
+bindsym $mod+Shift+b exec chromium-browser
+
+# Take a screenshot
+bindsym Print exec scrot -e 'mv $f /tmp/ && gimp /tmp/$f'
+
+# Lock the Screen
+bindsym $mod+Shift+o exec i3lock
+
+# Page Up: Volume Up; Page Down: Volume Down; Home: Mute;
+bindsym $mod+Shift+Next exec pactl set-sink-volume 1 -- -10%
+bindsym $mod+Shift+Prior exec pactl set-sink-volume 1 -- +10%
+bindsym $mod+Shift+Home exec pactl set-sink-mute 1 -- toggle
+
+# Startup
+exec --no-startup-id feh --bg-scale /home/ryan/Pictures/space-wallpapers-2.jpg
+exec --no-startup-id nm-applet
+exec --no-startup-id indictator-sound-switcher
+exec --no-startup-id i3-msg workspace $ws1; exec chromium-browser https://duckduckgo.com --incognito;
+#exec --no-startup-id i3-msg workspace $ws2; exec lxterminal htop; workspace $ws1;
+#exec --no-startup-id i3-msg workspace $ws2; exec lxterminal vmstat; workspace $ws1;
+exec --no-startup-id i3-msg workspace $ws2; exec lxterminal tcpdump -i wlan0; workspace $ws1;
+#exec --no-startup-id i3-msg workspace $ws2; exec lxterminal iotop; workspace $ws1;
+exec --no-startup-id i3-msg workspace $ws2; exec lxterminal iptraf -i wlan0; workspace $ws1;
+exec --no-startup-id i3-msg workspace $ws2; exec lxterminal; workspace $ws1
+
+# Add your keyboard layout command to .bashrc
+# For UK it is : setxkbmap gb
+exec --no-startup-id indicator-sound-switcher &
+exec --no-startup-id radiotray &
+exec --no-startup-id lxpanel &
+
+# Float the following windows
+
+for_window [class="^gimp"] floating enable
+for_window [class="vlc"] floating enable
+for_window [class="^lmms"] floating enable
+for_window [class="lxpanel"] floating enable
+
+# Window Borders
+for_window [class="lxterminal"] border 1pixel
+
+
+font pango: Source Code Pro 12px # Inconsolata 10px
+floating_modifier $mod
+bindsym $mod+Shift+q kill
+bindsym $mod+d exec dmenu_run
+
+# change focus
+bindsym $mod+j focus left
+bindsym $mod+k focus down
+bindsym $mod+l focus up
+bindsym $mod+semicolon focus right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# move focused window
+bindsym $mod+Shift+j move left
+bindsym $mod+Shift+k move down
+bindsym $mod+Shift+l move up
+bindsym $mod+Shift+semicolon move right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# split in horizontal orientation
+bindsym $mod+h split h
+
+# split in vertical orientation
+bindsym $mod+v split v
+
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# focus the parent container
+bindsym $mod+a focus parent
+
+# focus the child container
+#bindsym $mod+d focus child
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+# exit i3 (logs you out of your X session)
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+
+# resize window (you can also use the mouse for that)
+mode "resize" {
+        # These bindings trigger as soon as you enter the resize mode
+
+        # Pressing left will shrink the window’s width.
+        # Pressing right will grow the window’s width.
+        # Pressing up will shrink the window’s height.
+        # Pressing down will grow the window’s height.
+        bindsym j resize shrink width 10 px or 10 ppt
+        bindsym k resize grow height 10 px or 10 ppt
+        bindsym l resize shrink height 10 px or 10 ppt
+        bindsym semicolon resize grow width 10 px or 10 ppt
+
+        # same bindings, but for the arrow keys
+        bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym Down resize grow height 10 px or 10 ppt
+        bindsym Up resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
+
+        # back to normal: Enter or Escape
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+bindsym $mod+r mode "resize"
+
+# Start i3bar to display a workspace bar (plus the system information i3status
+# finds out, if available)
+bar {
+	position top
+        status_command i3status
+}
